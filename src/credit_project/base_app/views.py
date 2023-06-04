@@ -1,4 +1,7 @@
-from rest_framework import viewsets, routers, mixins
+from rest_framework import viewsets, routers, mixins, views
+from rest_framework.response import Response
+from rest_framework.request import Request
+from rest_framework.decorators import api_view
 
 import base_app.models as models
 import base_app.serializers as serializers
@@ -56,6 +59,14 @@ class ProducerView(viewsets.GenericViewSet,
     def perform_destroy(self, instance):
         instance.is_active = False
         instance.save()
+
+
+@api_view(['GET'])
+def query(request, pk):
+    response = models.CreditRequest.objects.filter(id=pk)\
+                                            .values('product__producer_id')\
+                                            .distinct()
+    return Response(response)
 
 
 router.register(prefix='credit_request', viewset=CreditRequestView)
