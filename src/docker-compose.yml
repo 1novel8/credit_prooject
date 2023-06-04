@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    command: bash -c "python credit_project/manage.py makemigrations && python credit_project/manage.py migrate && python credit_project/manage.py runserver 0.0.0.0:8000"
+    command: bash -c "cd src/credit_project && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 
   db:
     hostname: pghost
