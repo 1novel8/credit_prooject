@@ -1,9 +1,13 @@
 from django.db import models
 
 
-class BaseModel(models.base):
+class BaseModel(models.Model):
     date_of_creation = models.DateField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    objects = models.Manager()
+
+    class Meta:
+        abstract = True
 
 
 class Contract(BaseModel):
@@ -21,5 +25,6 @@ class Producer(BaseModel):
 class Product(BaseModel):
     credit_request = models.ForeignKey(CreditRequest, on_delete=models.CASCADE)
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
 
 
